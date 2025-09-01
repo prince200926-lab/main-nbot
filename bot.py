@@ -4,7 +4,6 @@ import asyncio
 import random
 import sqlite3
 import os
-from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from typing import Tuple, Dict, List # Added for type hints in games class
 
@@ -808,6 +807,6 @@ async def reset_user_error(ctx, error):
 # Run the bot
 # IMPORTANT: Replace "YOUR_BOT_TOKEN_HERE" with your actual Discord bot token.
 # The token provided in the original context is likely a placeholder or expired.
-t = os.getenv("TOKEN")
+t= os.getenv("key")
 
 bot.run(t)
