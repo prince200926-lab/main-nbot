@@ -6,6 +6,8 @@ import sqlite3
 import os
 from datetime import datetime, timedelta
 from typing import Tuple, Dict, List # Added for type hints in games class
+from flask import flask
+from threading import Thread
 
 # --- Configuration (from config.py) ---
 """
@@ -808,5 +810,16 @@ async def reset_user_error(ctx, error):
 # IMPORTANT: Replace "YOUR_BOT_TOKEN_HERE" with your actual Discord bot token.
 # The token provided in the original context is likely a placeholder or expired.
 t= os.getenv("key")
+
+#flask server
+app = flask('')
+
+def home():
+    return "bot is alive"
+
+def run():
+    app.run(host='0.0.0.0' , port=8080)
+
+Thread(target=run).start()
 
 bot.run(t)
