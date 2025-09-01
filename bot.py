@@ -812,7 +812,7 @@ async def reset_user_error(ctx, error):
 t= os.getenv("key")
 
 #flask server
-app = flask('')
+app = Flask('')
 
 def home():
     return "bot is alive"
