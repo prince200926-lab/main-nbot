@@ -814,6 +814,8 @@ t= os.getenv("key")
 #flask server
 app = Flask('')
 
+@app.route('/')
+
 def home():
     return "bot is alive"
 
