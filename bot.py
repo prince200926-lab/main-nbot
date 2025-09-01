@@ -6,7 +6,7 @@ import sqlite3
 import os
 from datetime import datetime, timedelta
 from typing import Tuple, Dict, List # Added for type hints in games class
-from flask import flask
+from flask import Flask
 from threading import Thread
 
 # --- Configuration (from config.py) ---
