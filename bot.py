@@ -15,9 +15,9 @@ Configuration for the Discord gambling bot
 """
 # Bot configuration
 BOT_PREFIX = "!"
-INITIAL_BALANCE = 1000
-MIN_BET = 10
-MAX_BET = 5000
+INITIAL_BALANCE = 0
+MIN_BET = 0
+MAX_BET =10000
 
 # Cooldown times (in seconds)
 GAMBLING_COOLDOWN = 3   # 3 seconds between gambling commands
