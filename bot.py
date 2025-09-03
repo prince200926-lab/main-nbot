@@ -230,14 +230,14 @@ class GamblingGames:
         
         won = user_choice == result
         payout = int(bet_amount * COIN_FLIP_MULTIPLIER) if won else 0
-        reward = int(payout - bet_amount)
+        
         result_message = f"🪙 The coin landed on **{result}**! "
         if won:
-            result_message += f"You won **{reward}** coins! 🎉"
+            result_message += f"You won **{payout}** coins! 🎉"
         else:
             result_message += f"You lost **{bet_amount}** coins! 💸"
         
-        return won, payout, result_message, reward
+        return won, payout, result_message
     
     @staticmethod
     def dice_roll(bet_amount: int, target_number: int = 6) -> Tuple[bool, int, str]:
@@ -260,14 +260,14 @@ class GamblingGames:
         else:
             # Standard 1/6 chance, so 6x multiplier for fair odds
             payout = int(bet_amount * 1.25) if won else 0 # Using the same multiplier as default for simplicity
-            reward = int(payout - bet_amount)
+        
         result_message = f"🎲 You rolled a **{roll}**! "
         if won:
             result_message += f"You hit your target of **{target_number}** and won **{payout}** coins! 🎉"
         else:
             result_message += f"You needed **{target_number}** but lost **{bet_amount}** coins! 💸"
         
-        return won, payout, result_message, reward
+        return won, payout, result_message
     
     @staticmethod
     def _get_weighted_symbol() -> str:
