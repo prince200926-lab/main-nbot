@@ -14,7 +14,7 @@ from threading import Thread
 Configuration for the Discord gambling bot
 """
 # Bot configuration
-BOT_PREFIX = "!"
+BOT_PREFIX = "."
 INITIAL_BALANCE = 0
 MIN_BET = 0
 MAX_BET =10000
