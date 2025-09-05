@@ -8,13 +8,16 @@ from datetime import datetime, timedelta
 from typing import Tuple, Dict, List # Added for type hints in games class
 from flask import Flask
 from threading import Thread
+from discord.ext.commands import CheckFailure
+
 
 # --- Configuration (from config.py) ---
 """
 Configuration for the Discord gambling bot
 """
 # Bot configuration
-BOT_PREFIX = "."
+ADMIN_ROLE_ID =1413376670806573168
+BOT_PREFIX = "?"
 INITIAL_BALANCE = 0
 MIN_BET = 0
 MAX_BET =10000
@@ -482,6 +485,18 @@ db = Database()
 games = GamblingGames()
 economy = Economy(db)
 
+def has_admin_role():
+    async def predicate(ctx):
+        if ctx.guild is None:
+            return False  # Command must be used in a guild
+        
+        role = discord.utils.get(ctx.author.roles, id=ADMIN_ROLE_ID)
+        if role:
+            return True
+        
+        raise CheckFailure(f"You need the required admin role to use this command.")
+    return commands.check(predicate)
+
 @bot.event
 async def on_ready():
     """Bot startup event"""
@@ -756,7 +771,7 @@ async def bot_info(ctx):
 
 # Admin Commands (Optional)
 @bot.command(name='give', hidden=True)
-@commands.has_permissions(administrator=True)
+@has_admin_role()
 async def give_money(ctx, user: discord.User, amount: int):
     """Give money to a user (Admin only)"""
     if amount <= 0:
@@ -773,7 +788,7 @@ async def give_money(ctx, user: discord.User, amount: int):
     await ctx.send(embed=embed)
 
 @bot.command(name='reset', hidden=True)
-@commands.has_permissions(administrator=True)
+@has_admin_role()
 async def reset_user(ctx, user: discord.User):
     """Reset a user's balance and stats (Admin only)"""
     await db.update_balance(user.id, ctx.guild.id, INITIAL_BALANCE)  # Reset to initial balance
@@ -788,27 +803,34 @@ async def reset_user(ctx, user: discord.User):
 # Error handlers for specific commands
 @give_money.error
 async def give_money_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
+    if isinstance(error, CheckFailure):
         embed = discord.Embed(
             title="❌ Permission Denied",
-            description="You need administrator permissions to use this command.",
+            description=str(error),
             color=0xff0000
         )
         await ctx.send(embed=embed)
+    elif isinstance(error, commands.MissingRequiredArgument):
+        # your existing error handling here
+        pass
 
 @reset_user.error
 async def reset_user_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
+    if isinstance(error, CheckFailure):
         embed = discord.Embed(
             title="❌ Permission Denied",
-            description="You need administrator permissions to use this command.",
+            description=str(error),
             color=0xff0000
         )
         await ctx.send(embed=embed)
+    elif isinstance(error, commands.MissingRequiredArgument):
+        # your existing error handling here
+        pass
 
 # Run the bot
 # IMPORTANT: Replace "YOUR_BOT_TOKEN_HERE" with your actual Discord bot token.
 # The token provided in the original context is likely a placeholder or expired.
+
 t= os.getenv("key")
 
 #flask server
