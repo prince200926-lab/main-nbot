@@ -17,7 +17,7 @@ Configuration for the Discord gambling bot
 """
 # Bot configuration
 ADMIN_ROLE_ID =1413376670806573168
-BOT_PREFIX = "?"
+BOT_PREFIX = "."
 INITIAL_BALANCE = 0
 MIN_BET = 0
 MAX_BET =10000
