@@ -19,28 +19,28 @@ Configuration for the Discord gambling bot
 ADMIN_ROLE_ID =1413376670806573168
 BOT_PREFIX = "."
 INITIAL_BALANCE = 0
-MIN_BET = 0
-MAX_BET =10000
+MIN_BET = 50
+MAX_BET =5000
 
 # Cooldown times (in seconds)
 GAMBLING_COOLDOWN = 3   # 3 seconds between gambling commands
 
 # Game multipliers and odds
-COIN_FLIP_MULTIPLIER = 1.1
-DICE_WIN_MULTIPLIER = 1.25  # For rolling 6
+COIN_FLIP_MULTIPLIER = 1.5
+DICE_WIN_MULTIPLIER = 2  # For rolling 6
 SLOTS_MULTIPLIERS = {
-    "jackpot": 1.5,     # Three 7s
-    "triple": 1.3,       # Three of any other symbol
-    "double": 1.2        # Two matching symbols
+    "jackpot": 2.5,     # Three 7s
+    "triple": 2.2,       # Three of any other symbol
+    "double": 1.8        # Two matching symbols
 }
 
 # Slots symbols and their weights (higher weight = more common)
 SLOTS_SYMBOLS = {
     "🍒": 12,
-    "🍋": 12,
-    "🍊": 12,
-    "🍇": 12,
-    "💎": 18,
+    "🍋": 18,
+    "🍊": 16,
+    "🍇": 14,
+    "💎": 10,
     "7️⃣": 3
 }
 
@@ -262,7 +262,7 @@ class GamblingGames:
             payout = int(bet_amount * DICE_WIN_MULTIPLIER) if won else 0
         else:
             # Standard 1/6 chance, so 6x multiplier for fair odds
-            payout = int(bet_amount * 1.25) if won else 0 # Using the same multiplier as default for simplicity
+            payout = int(bet_amount * 2) if won else 0 # Using the same multiplier as default for simplicity
         
         result_message = f"🎲 You rolled a **{roll}**! "
         if won:
@@ -329,18 +329,18 @@ class GamblingGames:
 🎮 **Available Gambling Games:**
 
 **🪙 Coin Flip** - `!flip <amount> <heads/tails>`
-• Win multiplier: 1.1x
+• Win multiplier: 1.5x
 • 50% chance to win
 
 **🎲 Dice Roll** - `!dice <amount> [target_number]`
-• Default target: 6 (1.25x multiplier)
-• Custom target: 1.25x multiplier (for any target 1-6)
+• Default target: 6 (2x multiplier)
+• Custom target: 2x multiplier (for any target 1-6)
 • 1/6 chance to win
 
 **🎰 Slots** - `!slots <amount>`
-• Triple 7s (Jackpot): 1.5x multiplier
-• Triple any symbol: 1.3x multiplier
-• Double match: 1.2x multiplier
+• Triple 7s (Jackpot): 2.5x multiplier
+• Triple any symbol: 2.2x multiplier
+• Double match: 1.8x multiplier
 • Various win chances based on symbol rarity
 
 **💰 Economy Commands:**
@@ -687,9 +687,9 @@ async def help_command(ctx):
     # Gambling Games
     embed.add_field(
         name="🎮 Gambling Games",
-        value=f"`{BOT_PREFIX}flip <amount> <heads/tails>` - Coin flip (1.1x win)\n"
-              f"`{BOT_PREFIX}dice <amount> [target]` - Dice roll 1.25x\n"
-              f"`{BOT_PREFIX}slots <amount>` - Slot machine jackpot 1.5x ,triple 1.3 , double 1.2",
+        value=f"`{BOT_PREFIX}flip <amount> <heads/tails>` - Coin flip (1.5x win)\n"
+              f"`{BOT_PREFIX}dice <amount> [target]` - Dice roll 2x\n"
+              f"`{BOT_PREFIX}slots <amount>` - Slot machine jackpot 2.5x ,triple 2.2x, double 1.8x",
         inline=False
     )
     
